@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>爱居兔童装</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="less.css">
+
+</head>
+<body>
+
+<!--loading页面-->
+<div class="loading" style="width: 100%">
+    <div>
+        <img src="img/loading.png" onclick="return false" class="fire1"/>
+    </div>
+    <!--指数页面-->
+    <div class="process">
+        <span id="progress_num"></span>
+    </div>
+</div>
+
+<!--主页面-->
+<div class="page">
+    <div style="position: relative">
+        <img src="img/kidbg.jpg"  onclick="return false"  style="width:100%;height:auto;display: block">
+        <img src="img/tell.jpg"  onclick="return false"  style="width: 100%;height: auto;display: block">
+        <img src="img/btn.png" id="btn">
+    </div>
+    <div class="alertPic">
+        <img src="img/1.png" id="i1" alt="">
+        <img src="img/2.png" id="i2" alt="">
+        <img src="img/3.png" id="i3" alt="">
+        <img src="img/4.png" id="i4" alt="">
+        <img src="img/5.png" id="i5" alt="">
+    </div>
+</div>
+
+<script src="jquery.js"></script>
+<script src="imgpreload.js"></script>
+<script>
+
+    //全局变量flag
+    var flag = true;
+
+
+    $('#btn').click(function () {
+        if (flag) {
+            var random = Math.floor(Math.random() * 5) + 1;
+            alertShow(random);
+            console.log(random)
+        } else {
+            flag = false;
+            alertShow(5)
+        }
+
+    });
+
+    //alertShow是提示框：eg: alertShow(1)  ( ′◔ ‸◔`)
+    // 1.还不是会员 注册
+    // 2.获得5 张劵
+    // 3.领完了 下次来
+    // 4.系统异常
+    // 5.已经参加活动
+    function alertShow(i) {
+        $('.alertPic img').hide();
+        switch (i) {
+            case 1:
+                $("#i1").show();
+                setTimeout(function () {
+                    $("#i1").fadeOut({
+                        duration: 500,
+                    });
+                }, 3000);
+                break;
+
+            case 2:
+                $("#i2").show();
+                setTimeout(function () {
+                    $("#i2").fadeOut({
+                        duration: 500,
+                    });
+                }, 3000);
+
+                break;
+
+            case 3:
+                $("#i3").show();
+                setTimeout(function () {
+                    $("#i3").fadeOut({
+                        duration: 500,
+                    });
+                }, 3000);
+
+                break;
+            case 4:
+                $("#i4").show();
+                setTimeout(function () {
+                    $("#i4").fadeOut({
+                        duration: 500,
+                    });
+                }, 3000);
+
+                break;
+            case 5:
+                $("#i5").show();
+                setTimeout(function () {
+                    $("#i5").fadeOut({
+                        duration: 500,
+                    });
+                }, 3000);
+
+                break;
+        }
+    }
+
+
+    //图片加入数组 首页面载入
+    var load_img_0 = [];
+    load_img_0.push('img/loading.png');
+
+    var load_img = [];
+    load_img.push('img/1.png');
+    load_img.push('img/2.png');
+    load_img.push('img/3.png');
+    load_img.push('img/4.png');
+    load_img.push('img/5.png');
+    load_img.push('img/btn.png');
+    load_img.push('img/kidbg.jpg');
+    load_img.push('img/tell.jpg');
+
+    var load_img_progress = 0;
+    var load_img_total = load_img.length;
+
+    function loading0() {
+        jQuery.imgpreload(load_img_0, {
+            all: function () {
+                $('.loading').css("opacity", "1");
+                loading();
+            }
+        });
+    }
+
+    //页面加载
+    function loading() {
+        jQuery.imgpreload(load_img, {
+            each: function () {
+                var status = $(this).data('loaded') ? 'success' : 'error';
+                if (status === 'success') {
+                    load_img_progress++;
+                    var percent = Math.floor(load_img_progress / load_img_total * 100);
+                    $('#progress_num').html(percent + "%");
+                    console.log(percent)
+                }
+            },
+            all: function () {
+                $("#process").remove();
+
+                $(".loading").fadeOut(
+                    {
+                        duration: 2000
+                    }
+                );
+
+
+                setTimeout(function () {
+                    $(".page").fadeIn({
+                        duration: 1000
+                    });
+                }, 500)
+            }
+        });
+    }
+
+
+    loading0();
+
+</script>
+</body>
+</html>
